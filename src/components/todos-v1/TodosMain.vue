@@ -13,6 +13,9 @@ export default {
       this.lines.push(this.text);
       this.text = '';
     },
+    deleteLine(index) {
+      
+    }
   },
 };
 </script>
@@ -20,6 +23,9 @@ export default {
 <template>
   <div class="container">
     <div class="app">
+      <div>
+        <h1 class="app-title">Tasks for today</h1>
+      </div>
       <div class="form">
         <input type="text" v-model="text">
         <button v-on:click="nextLine">Next</button>
@@ -27,8 +33,7 @@ export default {
       <div class="line">
         <div v-for="(line, index) of lines" :key="index">
           {{ line }}
-        </div>
-      </div>
+        <li v-on:click="deleteLine($index)" class="line-item" v-bind:class="{ 'line-item--deleted': item.deleted}"> {{ line }} <span class="item-delete">X</span></li>
     </div>
   </div>
 </template>
@@ -46,5 +51,8 @@ export default {
 }
 .line {
   padding: 4px;
+}
+.h1 {
+  position: center;
 }
 </style>
