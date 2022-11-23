@@ -4,17 +4,52 @@ import './page_styles.css';
 export default {
   data() {
     return {
-      text: '!',
+      task: '',
+      editedTask: null,
       lines: [],
+      tasks: [
+        {
+          name: 'Stay sane',
+          status: 'to-do'
+        },
+        {
+          name: 'Get your shit together',
+          status: 'to-do'
+        },
+      ]
     };
   },
   methods: {
-    nextLine() {
-      this.lines.push(this.text);
-      this.text = '';
-    },
-    deleteLine(index) {
+    submitTask() {
+      if(this.task.length === 0) return;
+
+      if(this.editedTask === null){
+      this.tasks.push({
+        name: this.task,
+        status: 'to-do'
+      });
+      }else{
+        this.tasks[this.editedTask].name = this.task;
+        this.editedTask = null;
+      }
+      this.task = '';
       
+    },
+
+    deleteTask(index){
+      this.tasks.splice(index, 1);
+
+    },
+
+    editTask(index){
+      this.task = this.tasks[index].name;
+      this.editedTask = index;
+
+    },
+    
+    onInput (event) {
+      this.task = event.target.value;
+      console.log(event.target.value);
     }
   },
 };
@@ -27,15 +62,20 @@ export default {
         <h1 class="app-title">Tasks for today</h1>
       </div>
       <div class="form">
-        <input type="text" v-model="text">
-        <button v-on:click="nextLine">Next</button>
+        <input type="text" :value="task" @input="onInput">
+        <button @click="submitTask">Next</button>
       </div>
       <div class="line">
-        <div v-for="(line, index) of lines" :key="index">
-          {{ line }}
-        <li v-on:click="deleteLine($index)" class="line-item" v-bind:class="{ 'line-item--deleted': item.deleted}"> {{ line }} <span class="item-delete">X</span></li>
+        <tr v-for="(task, index) of tasks" :key="index">
+          <td>{{ task.name }}</td>
+          <td>{{ task.status }}</td>
+           <button @click = "deleteTask(index)">X</button>
+           <button @click = "editTask(index)">Edit</button>
+          </tr>
+        </div>
     </div>
   </div>
+  
 </template>
 
 <style scoped>
