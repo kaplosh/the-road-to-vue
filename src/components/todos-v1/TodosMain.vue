@@ -5,28 +5,34 @@ export default {
   data() {
     return {
       task: '',
+      errorMsg: '',
       editedTask: null,
-      lines: [],
+      isDisabled: false,
+      stat: 1,
       tasks: [
-        {
+        /*{
           name: 'Stay sane',
           status: 'to-do'
         },
         {
           name: 'Get your shit together',
           status: 'to-do'
-        },
+        },*/
       ]
     };
   },
   methods: {
+
+    
+
     submitTask() {
       if(this.task.length === 0) return;
 
       if(this.editedTask === null){
       this.tasks.push({
         name: this.task,
-        status: 'to-do'
+        status: 'to-do',
+        
       });
       }else{
         this.tasks[this.editedTask].name = this.task;
@@ -41,6 +47,15 @@ export default {
 
     },
 
+    changeStat(index){
+      if(this.tasks[index].status==='to-do'){
+        this.tasks[index].status = 'done';
+      }else{
+        this.tasks[index].status = 'to-do';
+      };
+
+    },
+
     editTask(index){
       this.task = this.tasks[index].name;
       this.editedTask = index;
@@ -49,10 +64,18 @@ export default {
     
     onInput (event) {
       this.task = event.target.value;
-      console.log(event.target.value);
-    }
+      
+      if(isNaN(this.task)){
+        console.log("This is not valid input");
+        this.isDisabled = true;
+        
+      }else{
+        this.isDisabled = false;
+        
+      }
+    },  
   },
-};
+}
 </script>
 
 <template>
@@ -60,18 +83,20 @@ export default {
     <div class="app">
       <div>
         <h1 class="app-title">Tasks for today</h1>
+        <h2>{{ errorMsg }}</h2>
       </div>
       <div class="form">
-        <input type="text" :value="task" @input="onInput">
-        <button @click="submitTask">Next</button>
+        <input type="text" :value="task" v-on:keyup.enter="submitTask" @input="onInput">
+        <button :disabled='isDisabled' @click="submitTask">Next</button>
       </div>
       <div class="line">
         <tr v-for="(task, index) of tasks" :key="index">
-          <td>{{ task.name }}</td>
-          <td>{{ task.status }}</td>
-           <button @click = "deleteTask(index)">X</button>
-           <button @click = "editTask(index)">Edit</button>
+          <td>{{ task.name }} </td>
+          <td><button @click = "changeStat(index)"> {{ task.status }} </button> </td>
+           <td><button @click = "deleteTask(index)">X</button></td>
+           <td><button @click = "editTask(index)">Edit</button></td>
           </tr>
+        <tr> </tr>
         </div>
     </div>
   </div>
@@ -95,4 +120,4 @@ export default {
 .h1 {
   position: center;
 }
-</style>
+</style> 
