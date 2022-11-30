@@ -7,7 +7,8 @@ export default {
       task: '',
       errorMsg: '',
       editedTask: null,
-      isDisabled: false,
+      isDisabledAdd: false,
+      isDisabledX: false,
       stat: 1,
       tasks: [
         /*{
@@ -39,6 +40,7 @@ export default {
         this.editedTask = null;
       }
       this.task = '';
+      this.isDisabledX = false;
       
     },
 
@@ -59,6 +61,7 @@ export default {
     editTask(index){
       this.task = this.tasks[index].name;
       this.editedTask = index;
+      this.isDisabledX = true;
 
     },
     
@@ -67,15 +70,16 @@ export default {
       
       if(isNaN(this.task)){
         console.log("This is not valid input");
-        this.isDisabled = true;
+        this.isDisabledAdd = true;
         
       }else{
-        this.isDisabled = false;
+        this.isDisabledAdd = false;
         
       }
     },  
   },
 }
+console.log(0+1)
 </script>
 
 <template>
@@ -86,14 +90,14 @@ export default {
         <h2>{{ errorMsg }}</h2>
       </div>
       <div class="form">
-        <input type="text" :value="task" v-on:keyup.enter="submitTask" @input="onInput">
-        <button :disabled='isDisabled' @click="submitTask">Next</button>
+        <input type="text" :value="task" v-on:keyup.enter="submitTask" @input="onInput" placeholder="Enter your task here..">
+        <button :disabled='isDisabledAdd' @click="submitTask">Add</button>
       </div>
       <div class="line">
         <tr v-for="(task, index) of tasks" :key="index">
-          <td>{{ task.name }} </td>
+          <td>{{ task.name }}</td>
           <td><button @click = "changeStat(index)"> {{ task.status }} </button> </td>
-           <td><button @click = "deleteTask(index)">X</button></td>
+           <td><button :disabled="isDisabledX" @click = "deleteTask(index)">X</button></td>
            <td><button @click = "editTask(index)">Edit</button></td>
           </tr>
         <tr> </tr>
