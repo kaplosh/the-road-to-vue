@@ -1,4 +1,6 @@
 <script>
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './page_styles.css';
 
 export default {
@@ -11,15 +13,67 @@ export default {
       isDisabledX: false,
       stat: 1,
       tasks: [
-        /*{
+        {
           name: 'Stay sane',
-          status: 'to-do'
+          status: 'To-do',
         },
         {
           name: 'Get your shit together',
-          status: 'to-do'
-        },*/
-      ]
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+        {
+          name: 'Get your shit together',
+          status: 'To-do',
+        },
+      ],
     };
   },
   methods: {
@@ -50,11 +104,11 @@ export default {
     },
 
     changeStat(index){
-      if(this.tasks[index].status==='to-do'){
-        this.tasks[index].status = 'done';
+      if(this.tasks[index].status==='To-do'){
+        this.tasks[index].status = 'Done';
       }else{
-        this.tasks[index].status = 'to-do';
-      };
+        this.tasks[index].status = 'To-do';
+      }
 
     },
 
@@ -66,8 +120,20 @@ export default {
     },
     
     onInput (event) {
+      const value = Number(event.target.value);
+      if (isNaN(value)) {
+        
+        // nope
+      } else {
+        // v poradku
+      }
+
+
+      
       this.task = event.target.value;
       
+
+
       if(isNaN(this.task)){
         console.log("This is not valid input");
         this.isDisabledAdd = true;
@@ -78,50 +144,48 @@ export default {
       }
     },  
   },
-}
-console.log(0+1)
+};
+
 </script>
 
 <template>
-  <div class="container">
-    <div class="app">
-      <div>
-        <h1 class="app-title">Tasks for today</h1>
-        <h2>{{ errorMsg }}</h2>
-      </div>
-      <div class="form">
-        <input type="text" :value="task" v-on:keyup.enter="submitTask" @input="onInput" placeholder="Enter your task here..">
-        <button :disabled='isDisabledAdd' @click="submitTask">Add</button>
-      </div>
-      <div class="line">
-        <tr v-for="(task, index) of tasks" :key="index">
-          <td>{{ task.name }}</td>
-          <td><button @click = "changeStat(index)"> {{ task.status }} </button> </td>
-           <td><button :disabled="isDisabledX" @click = "deleteTask(index)">X</button></td>
-           <td><button @click = "editTask(index)">Edit</button></td>
-          </tr>
-        <tr> </tr>
+  <div class="app">
+   
+   <div class="mt-3 text-center">
+      <h1 class="user-select-none">Tasks for today</h1>
+      <h2>{{ errorMsg }}</h2>
+   </div>
+
+    <div>
+      <div class="mt-3 d-flex justify-content-center">
+        <div class="add-new-form">
+        <div class="d-flex">
+            <input type="text" :value="task" v-on:keyup.enter="submitTask" @input="onInput" class="form-control" aria-describedby="tasklHelp" placeholder="Enter your task here..">
+            <button type="button" class="btn btn-outline-success ms-2" :disabled='isDisabledAdd' @click="submitTask">Add</button>
+          </div>
+          <div id="taskHelp" class="form-text">Let your dreams come true...</div>
         </div>
+      </div>
     </div>
+   
+    <div class="mt-3 d-flex flex-wrap justify-content-center ">
+      <div class="card m-2" style="width: 18rem;" v-for="(task, index) of tasks" :key="index">
+        <div class="card-body">
+          <h5 class="list-group-item">{{ task.name }}</h5>
+          <ul class="list-grup-flush">
+            <li type="button" class="btn btn-outline-secondary ms-1" @click = "changeStat(index)"> {{ task.status }}  </li>
+            <li type="button" class="btn btn-outline-secondary ms-1" @click = "editTask(index)">Edit</li>
+            <li type="button" class="btn btn-outline-danger ms-1" :disabled="isDisabledX" @click = "deleteTask(index)">Delete </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
   </div>
-  
 </template>
 
 <style scoped>
-.container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.form {
-  display: flex;
-}
-.line {
-  padding: 4px;
-}
-.h1 {
-  position: center;
+.add-new-form {
+  max-width: 500px;
 }
 </style> 
